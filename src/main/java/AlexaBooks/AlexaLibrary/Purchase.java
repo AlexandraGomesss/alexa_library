@@ -1,0 +1,80 @@
+package AlexaBooks.AlexaLibrary;
+
+import AlexaBooks.AlexaLibrary.Client;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+
+@Entity
+public class Purchase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private AlexaBooks.AlexaLibrary.Book book;
+
+    private int quantity;
+
+    private LocalDate purchaseDate = LocalDate.now();
+
+    private double amountPaid;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(AlexaBooks.AlexaLibrary.Book book) {
+        this.book = book;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDate getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public double getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(double amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+    }
+}
