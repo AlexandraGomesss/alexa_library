@@ -1,9 +1,12 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
+import AlexaBooks.AlexaLibrary.DTO.RentalRequestDTO;
 import AlexaBooks.AlexaLibrary.Rental;
+import AlexaBooks.AlexaLibrary.Repositories.RentalRepository;
 import AlexaBooks.AlexaLibrary.Services.RentalService;
-import AlexaBooks.AlexaLibrary.Book;
 
+
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +22,12 @@ public class RentalController {
     private RentalService rentalService;
 
     @PostMapping
-    public ResponseEntity<Rental> createRental(@RequestParam Long clientId,
-                                               @RequestParam Long bookId,
-                                               @RequestParam int days) {
-        Rental rental = rentalService.createRental(clientId, bookId, days);
-        return new ResponseEntity<>(rental, HttpStatus.CREATED);
+    public ResponseEntity<Rental> createRental(@RequestBody @Valid RentalRequestDTO dto) {
+        Rental rental = rentalService.createRental(dto.getClientId(),
+                dto.getBookId(), dto.getRentalDays());
+        return ResponseEntity.ok(rental);
     }
+
 
     @GetMapping
     public List<Rental> getAllRentals() {

@@ -6,6 +6,7 @@ import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import AlexaBooks.AlexaLibrary.Repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import AlexaBooks.AlexaLibrary.Book;
 import AlexaBooks.AlexaLibrary.Rental;
@@ -25,8 +26,9 @@ public class RentalService {
     @Autowired
     private BookRepository bookRepo;
 
+    @Transactional
     public Rental createRental(Long clientId, Long bookId, int rentalDays) {
-        Client client = clientRepo.findById(clientId)
+        Client client = (Client) clientRepo.findById(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
         Book book = bookRepo.findById(bookId)
@@ -35,6 +37,18 @@ public class RentalService {
         if (book.getQuantityAvailable() <= 0) {
             throw new RuntimeException("No copies of the book are available");
         }
+
+        if (rentalDays <= 0) {
+            throw new IllegalArgumentException("Rental duration must be at least 1 day");
+        }
+
+        List<Rental> existingRentals = rentalRepo.findByClientIdAndBookId(clientId, bookId);
+        for (Rental r : existingRentals) {
+            if (r.getReturnDate().isAfter(LocalDate.now())) {
+                throw new RuntimeException("Client already has this book rented");
+            }
+        }
+
         Rental rental = new Rental();
         rental.setClient(client);
         rental.setBook(book);

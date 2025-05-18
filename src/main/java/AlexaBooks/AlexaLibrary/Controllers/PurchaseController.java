@@ -1,7 +1,9 @@
 package AlexaBooks.AlexaLibrary.Controllers;
+
 import AlexaBooks.AlexaLibrary.Purchase;
+import AlexaBooks.AlexaLibrary.DTO.PurchaseRequestDTO;
 import AlexaBooks.AlexaLibrary.Services.PurchaseService;
-import AlexaBooks.AlexaLibrary.Book;
+
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import jakarta.validation.Valid;
 
 
 
@@ -22,18 +25,14 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @PostMapping
-    public ResponseEntity<Purchase> createPurchase
-            (@RequestParam Long clientId,
-             @RequestParam Long bookId,
-             @RequestParam int quantity
-            ) {
-        Purchase purchase = purchaseService.createPurchase(clientId, bookId, quantity);
-        return new ResponseEntity<>(purchase, HttpStatus.CREATED);
-
+    public ResponseEntity<Purchase> createPurchase(@RequestBody @Valid PurchaseRequestDTO dto) {
+        Purchase purchase = purchaseService.createPurchase(dto.getClientId(), dto.getBookId(), dto.getQuantity());
+        return ResponseEntity.ok(purchase);
     }
+}
 
-    @GetMapping
+    /*@GetMapping
     public List<Purchase> getAllPurchases() {
             return purchaseService.getAllPurchases();
     }
-}
+}*/

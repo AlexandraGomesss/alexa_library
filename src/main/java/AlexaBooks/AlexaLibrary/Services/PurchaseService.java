@@ -1,5 +1,3 @@
-
-
 package AlexaBooks.AlexaLibrary.Services;
 
 import AlexaBooks.AlexaLibrary.Book;
@@ -12,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.time.LocalDate;
 
 
 
@@ -20,19 +19,19 @@ import java.util.List;
 
 
         @Autowired
-        private PurchaseRepository purchaseRepository;
+        private PurchaseRepository purchaseRepo;
 
         @Autowired
-        private ClientRepository clientRepository;
+        private ClientRepository clientRepo;
 
         @Autowired
-        private BookRepository bookRepository;
+        private BookRepository bookRepo;
 
         public Purchase createPurchase(Long clientId, Long bookId, int quantity) {
-            Client client = (Client) clientRepository.findById(clientId)
+            Client client = (Client) clientRepo.findById(clientId)
                     .orElseThrow(() -> new RuntimeException("Client not found"));
 
-            Book book = bookRepository.findById(bookId)
+            Book book = bookRepo.findById(bookId)
                     .orElseThrow(() -> new RuntimeException("Book not found"));
 
             if (book.getQuantityAvailable() < quantity) {
@@ -40,8 +39,6 @@ import java.util.List;
             }
             double totalPrice = quantity * book.getPrice();
 
-            book.setQuantityAvailable(book.getQuantityAvailable() - quantity);
-            bookRepository.save(book);
 
             Purchase purchase = new Purchase();
             purchase.setClient(client);
@@ -49,11 +46,15 @@ import java.util.List;
             purchase.setQuantity(quantity);
             purchase.setTotalPrice(totalPrice);
 
-            return purchaseRepository.save(purchase);
-        }
+            book.setQuantityAvailable(book.getQuantityAvailable() - quantity);
+            return purchaseRepo.save(purchase);
 
-        public List<Purchase> getAllPurchases() {
-            return purchaseRepository.findAll();
         }
     }
+
+
+       /* public List<Purchase> getAllPurchases() {
+            return purchaseRepository.findAll();
+        }
+    }*/
 
