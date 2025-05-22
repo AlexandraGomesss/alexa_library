@@ -1,6 +1,4 @@
-package AlexaBooks.AlexaLibrary;
-
-import AlexaBooks.AlexaLibrary.Client;
+package Entities;
 
 import jakarta.persistence.*;
 
@@ -19,7 +17,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
-    private AlexaBooks.AlexaLibrary.Book book;
+    private Book book;
 
     private int quantity;
 
@@ -47,7 +45,7 @@ public class Purchase {
         return book;
     }
 
-    public void setBook(AlexaBooks.AlexaLibrary.Book book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 

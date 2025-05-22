@@ -7,10 +7,12 @@ import AlexaBooks.AlexaLibrary.Repositories.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import AlexaBooks.AlexaLibrary.Exceptions.ResourceNotFoundException;
 
-import AlexaBooks.AlexaLibrary.Book;
-import AlexaBooks.AlexaLibrary.Rental;
-import AlexaBooks.AlexaLibrary.Client;
+
+import Entities.Book;
+import Entities.Rental;
+import Entities.Client;
 import java.time.LocalDate;
 import java.util.List;
 

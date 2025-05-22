@@ -1,6 +1,6 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
-import AlexaBooks.AlexaLibrary.Book;
+import Entities.Book;
 import AlexaBooks.AlexaLibrary.Repositories.BookRepository;
 import AlexaBooks.AlexaLibrary.Services.BookService;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,7 @@
-package AlexaBooks.AlexaLibrary;
-import AlexaBooks.AlexaLibrary.Rental;
+package Entities;
 
 import jakarta.persistence.*;
 
-import AlexaBooks.AlexaLibrary.Book;
 import java.time.LocalDate;
 
 @Entity

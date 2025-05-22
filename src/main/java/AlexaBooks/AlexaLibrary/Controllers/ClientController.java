@@ -1,6 +1,6 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
-import AlexaBooks.AlexaLibrary.Client;
+import Entities.Client;
 import AlexaBooks.AlexaLibrary.DTO.ClientDTO;
 import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ClientController {
     private ClientRepository clientRepo;
 
     @PostMapping
-    public ResponseEntity<Client> registerClient(@RequestBody @Valid ClientDTO dto) {
+    public ResponseEntity<Client> registerClient(@Valid @RequestBody ClientDTO dto) {
         Client client = new Client();
         client.setFirstName(dto.getFirstName());
         client.setLastName(dto.getLastName());

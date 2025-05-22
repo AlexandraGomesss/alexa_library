@@ -1,20 +1,16 @@
 package AlexaBooks.AlexaLibrary.Services;
 
-import AlexaBooks.AlexaLibrary.Book;
-import AlexaBooks.AlexaLibrary.Client;
-import AlexaBooks.AlexaLibrary.Purchase;
+import Entities.Book;
+import Entities.Client;
+import Entities.Purchase;
 import AlexaBooks.AlexaLibrary.Repositories.BookRepository;
 import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import AlexaBooks.AlexaLibrary.Repositories.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.time.LocalDate;
 
-
-
-    @Service
+@Service
     public class PurchaseService {
 
 

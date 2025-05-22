@@ -1,9 +1,11 @@
 package AlexaBooks.AlexaLibrary.Services;
 
-import AlexaBooks.AlexaLibrary.Client;
+import Entities.Client;
 import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import AlexaBooks.AlexaLibrary.Exceptions.ResourceNotFoundException;
+
 
 @Service
 public class ClientService {
