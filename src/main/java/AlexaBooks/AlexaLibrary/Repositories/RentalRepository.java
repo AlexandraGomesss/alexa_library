@@ -1,6 +1,6 @@
 package AlexaBooks.AlexaLibrary.Repositories;
 
-import Entities.Rental;
+import AlexaBooks.AlexaLibrary.Entities.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

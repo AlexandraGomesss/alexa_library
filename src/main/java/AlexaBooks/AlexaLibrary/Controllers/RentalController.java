@@ -1,7 +1,7 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
 import AlexaBooks.AlexaLibrary.DTO.RentalRequestDTO;
-import Entities.Rental;
+import AlexaBooks.AlexaLibrary.Entities.Rental;
 import AlexaBooks.AlexaLibrary.Services.RentalService;
 
 

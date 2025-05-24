@@ -1,6 +1,6 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
-import Entities.Purchase;
+import AlexaBooks.AlexaLibrary.Entities.Purchase;
 import AlexaBooks.AlexaLibrary.DTO.PurchaseRequestDTO;
 import AlexaBooks.AlexaLibrary.Services.PurchaseService;
 

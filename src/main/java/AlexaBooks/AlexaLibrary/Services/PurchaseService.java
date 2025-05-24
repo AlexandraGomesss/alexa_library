@@ -1,8 +1,8 @@
 package AlexaBooks.AlexaLibrary.Services;
 
-import Entities.Book;
-import Entities.Client;
-import Entities.Purchase;
+import AlexaBooks.AlexaLibrary.Entities.Book;
+import AlexaBooks.AlexaLibrary.Entities.Client;
+import AlexaBooks.AlexaLibrary.Entities.Purchase;
 import AlexaBooks.AlexaLibrary.Repositories.BookRepository;
 import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import AlexaBooks.AlexaLibrary.Repositories.PurchaseRepository;

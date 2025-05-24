@@ -2,7 +2,7 @@ package AlexaBooks.AlexaLibrary.Services;
 
 import AlexaBooks.AlexaLibrary.Repositories.BookRepository;
 import org.springframework.stereotype.Service;
-import Entities.Book;
+import AlexaBooks.AlexaLibrary.Entities.Book;
 import java.util.List;
 
 @Service

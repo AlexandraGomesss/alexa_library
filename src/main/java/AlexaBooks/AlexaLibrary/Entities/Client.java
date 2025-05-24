@@ -1,4 +1,4 @@
-package Entities;
+package AlexaBooks.AlexaLibrary.Entities;
 
 import jakarta.persistence.*;
 
