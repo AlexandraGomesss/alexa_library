@@ -1,10 +1,7 @@
 package AlexaBooks.AlexaLibrary.Entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -18,10 +15,13 @@ public class Book {
     private String author;
     private String isbn;
     private String genre;
-    private boolean available;
-    private boolean forSale;
+    private Boolean available;
+    @Column(name = "forsale")
+    private Boolean forSale;
     private double price;
+    @Column(name = "publicationyear")
     private int publicationYear;
+    @Column(name = "quantityavailable")
     private int quantityAvailable;
 
     public Long getId() {
