@@ -49,8 +49,5 @@ import org.springframework.stereotype.Service;
     }
 
 
-       /* public List<Purchase> getAllPurchases() {
-            return purchaseRepository.findAll();
-        }
-    }*/
+
 

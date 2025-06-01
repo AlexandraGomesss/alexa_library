@@ -4,21 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 public class Client {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    private String name;  // Full name
 
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
+
+    // === Getters & Setters ===
 
     public Long getId() {
         return id;
@@ -28,20 +28,12 @@ public class Client {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {  // ✅ Correct getter for full name
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -58,5 +50,10 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    // Optional: This method is not necessary, but you can keep it if you use it somewhere
+    public boolean isEmpty() {
+        return false;
     }
 }

@@ -48,6 +48,7 @@ public class RentalService {
             if (r.getReturnDate().isAfter(LocalDate.now())) {
                 throw new RuntimeException("Client already has this book rented");
             }
+
         }
 
         Rental rental = new Rental();

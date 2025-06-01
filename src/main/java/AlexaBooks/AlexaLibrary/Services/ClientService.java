@@ -19,8 +19,7 @@ public class ClientService {
 
     public Client updateClient(Long id, Client updatedClient) {
         Client client = getClientById(id);
-        client.setFirstName(updatedClient.getFirstName());
-        client.setLastName(updatedClient.getLastName());
+        client.setName(updatedClient.getName());
         client.setEmail(updatedClient.getEmail());
         client.setPassword(updatedClient.getPassword());
         return clientRepo.save(client);

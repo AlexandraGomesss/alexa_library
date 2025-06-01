@@ -22,8 +22,7 @@ public class ClientController {
     @PostMapping
     public ResponseEntity<Client> registerClient(@Valid @RequestBody ClientDTO dto) {
         Client client = new Client();
-        client.setFirstName(dto.getFirstName());
-        client.setLastName(dto.getLastName());
+        client.setName(dto.getFirstName());
         client.setEmail(dto.getEmail());
         client.setPassword(dto.getPassword()); // NOTE: ideally hash password in real apps
         return ResponseEntity.ok(clientRepo.save(client));

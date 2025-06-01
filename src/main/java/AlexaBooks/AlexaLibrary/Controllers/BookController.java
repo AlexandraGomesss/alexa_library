@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/books")
 public class BookController {
 
+    @Autowired
     private final BookService bookService;
 
     // Constructor injection with a single bookService param
@@ -25,6 +26,11 @@ public class BookController {
     @GetMapping
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping("/available")
+    public List<Book> getAvailableBooks() {
+        return bookService.getAvailableBooks();
     }
 
     // Get one book by id

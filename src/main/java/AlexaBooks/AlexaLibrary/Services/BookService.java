@@ -38,5 +38,13 @@ public class BookService {
         book.setPrice(updatedBook.getPrice());
         return bookRepo.save(book);
     }
+
+    public List<Book> getAvailableBooks() {
+        return bookRepo.findByQuantityAvailableGreaterThan(0)
+                .stream()
+                .filter(book -> book.getQuantityAvailable() > 0)
+                .toList();
+
+    }
 }
 
