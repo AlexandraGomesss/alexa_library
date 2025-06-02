@@ -29,7 +29,7 @@ public class RentalService {
 
     @Transactional
     public Rental createRental(Long clientId, Long bookId, int rentalDays) {
-        Client client = (Client) clientRepo.findById(clientId)
+        Client client = clientRepo.findById(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
         Book book = bookRepo.findById(bookId)
@@ -48,7 +48,6 @@ public class RentalService {
             if (r.getReturnDate().isAfter(LocalDate.now())) {
                 throw new RuntimeException("Client already has this book rented");
             }
-
         }
 
         Rental rental = new Rental();
@@ -62,8 +61,15 @@ public class RentalService {
 
         return rentalRepo.save(rental);
     }
-        public List<Rental> getAllRentals() {
+
+    public List<Rental> getRentalsByClientId(Long clientId) {
+        return rentalRepo.findByClientId(clientId);
+    }
+
+    // ✅ ADD THIS METHOD
+    public List<Rental> getAllRentals() {
         return rentalRepo.findAll();
-        }
+    }
 }
+
 

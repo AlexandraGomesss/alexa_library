@@ -9,6 +9,7 @@ public interface RentalRepository extends JpaRepository <Rental, Long> {
 
     List<Rental> findByClientIdAndBookId(Long clientId, Long bookId);
 
+    List<Rental> findByClientId(Long clientId);
 }
 
 

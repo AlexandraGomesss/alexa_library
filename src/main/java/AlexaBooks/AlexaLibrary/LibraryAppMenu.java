@@ -2,8 +2,14 @@ package AlexaBooks.AlexaLibrary;
 
 import AlexaBooks.AlexaLibrary.Entities.Book;
 import AlexaBooks.AlexaLibrary.Entities.Client;
+import AlexaBooks.AlexaLibrary.Entities.Purchase;
+import AlexaBooks.AlexaLibrary.Entities.Rental;
+import AlexaBooks.AlexaLibrary.Exceptions.BookNotFoundException;
+import AlexaBooks.AlexaLibrary.Exceptions.InsufficientStockException;
 import AlexaBooks.AlexaLibrary.Services.BookService;
 import AlexaBooks.AlexaLibrary.Services.ClientService;
+import AlexaBooks.AlexaLibrary.Services.PurchaseService;
+import AlexaBooks.AlexaLibrary.Services.RentalService;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -14,13 +20,19 @@ public class LibraryAppMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final BookService bookService;
     private final ClientService clientService;
+    private final RentalService rentalService;
+    private final PurchaseService purchaseService;
     private boolean running = true;
     private Client client;
 
-    public LibraryAppMenu(BookService bookService, ClientService clientService) {
+
+    public LibraryAppMenu(BookService bookService, ClientService clientService, RentalService rentalService, PurchaseService purchaseService, PurchaseService purchaseService1) {
         this.bookService = bookService;
         this.clientService = clientService;
+        this.rentalService = rentalService;
+        this.purchaseService = purchaseService1;
     }
+
 
     public void showMenu() {
         askClientId();
@@ -107,17 +119,70 @@ public class LibraryAppMenu {
     }
 
 
-private void rentBook() {
-    System.out.println("📗 Rent a book feature coming soon...");
-    // TODO: Ask for book ID and client ID, then call RentalService
-}
+    private void rentBook() {
+        try {
+            System.out.print("👤 Enter your Client ID: ");
+            Long clientId = scanner.nextLong();
 
-private void purchaseBook() {
-    System.out.println("📘 Purchase a book feature coming soon...");
-    // TODO: Ask for book ID and client ID, then call PurchaseService
-}
+            System.out.print("📘 Enter the Book ID to rent: ");
+            Long bookId = scanner.nextLong();
 
-private void viewMyRentalsPurchases() {
+            System.out.print("📅 Enter rental duration in days: ");
+            int rentalDays = scanner.nextInt();
+
+            Rental rental = rentalService.createRental(clientId, bookId, rentalDays);
+
+            System.out.println("✅ Rental created successfully!");
+            System.out.printf("📚 Book: %s | Return by: %s%n",
+                    rental.getBook().getTitle(), rental.getReturnDate());
+
+        } catch (RuntimeException e) {
+            System.out.println("❌ Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ Unexpected error occurred. Please try again.");
+            scanner.nextLine(); // Clear scanner buffer in case of mismatch
+        }
+    }
+    public void purchaseBook() {
+        // 1. Show available books (reuse your existing method)
+        viewAvailableBooks();
+
+        System.out.println("Enter the ID of the book you want to purchase:");
+        Long bookId = scanner.nextLong();
+        scanner.nextLine(); // consume leftover newline
+
+        System.out.println("Enter the quantity you want to purchase:");
+        int quantity = scanner.nextInt();
+        scanner.nextLine(); // consume leftover newline
+
+        try {
+            // Assuming you have a method to get the current client
+            Client currentClient = getCurrentClient();
+
+            // Call your purchase service method
+            Purchase purchase = purchaseService.createPurchase(client.getId(), bookId, quantity);
+
+            System.out.println("Purchase successful!");
+            System.out.println("Book: " + purchase.getBook().getTitle());
+            System.out.println("Quantity: " + purchase.getQuantity());
+            System.out.println("Total Price: " + purchase.getTotalPrice());
+            System.out.println("Purchase Date: " + purchase.getPurchaseDate());
+
+        } catch (BookNotFoundException e) {
+            System.out.println("Error: Book not found.");
+        } catch (InsufficientStockException e) {
+            System.out.println("Error: Not enough stock available.");
+        } catch (Exception e) {
+            System.out.println("An error occurred during purchase: " + e.getMessage());
+        }
+    }
+
+    private Client getCurrentClient() {
+        return client;
+    }
+
+
+    private void viewMyRentalsPurchases() {
     System.out.println("📒 Viewing your rentals and purchases...");
     // TODO: Ask for client ID and fetch data from RentalService and PurchaseService
 }

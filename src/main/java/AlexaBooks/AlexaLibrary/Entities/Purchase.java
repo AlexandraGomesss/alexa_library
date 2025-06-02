@@ -21,9 +21,13 @@ public class Purchase {
 
     private int quantity;
 
-    private LocalDate purchaseDate = LocalDate.now();
+    private LocalDate purchaseDate;
 
-    private double amountPaid;
+    private double totalPrice;
+
+    public Purchase() {
+        this.purchaseDate = LocalDate.now(); // Automatically set when created
+    }
 
     public Long getId() {
         return id;
@@ -65,14 +69,12 @@ public class Purchase {
         this.purchaseDate = purchaseDate;
     }
 
-    public double getAmountPaid() {
-        return amountPaid;
-    }
-
-    public void setAmountPaid(double amountPaid) {
-        this.amountPaid = amountPaid;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
+
