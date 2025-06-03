@@ -70,6 +70,31 @@ public class RentalService {
     public List<Rental> getAllRentals() {
         return rentalRepo.findAll();
     }
+
+    public List<Rental> getActiveRentalsByClientId(Long clientId) {
+        return rentalRepo.findByClientIdAndIsReturnedFalse(clientId);
+    }
+
+
+    @Transactional
+    public void returnBook(Long rentalId) {
+        Rental rental = rentalRepo.findById(rentalId)
+                .orElseThrow(() -> new RuntimeException("Rental not found"));
+
+        if (rental.getIsReturned() != null && rental.getIsReturned()) {
+            throw new RuntimeException("This book has already been returned.");
+        }
+
+        rental.setReturnDate(LocalDate.now());
+        rental.setIsReturned(true);
+
+        Book book = rental.getBook();
+        book.setQuantityAvailable(book.getQuantityAvailable() + 1);
+        bookRepo.save(book);
+
+        rentalRepo.save(rental);
+    }
 }
+
 
 

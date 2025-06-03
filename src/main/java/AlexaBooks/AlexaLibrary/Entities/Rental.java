@@ -21,6 +21,8 @@ public class Rental {
 
     private LocalDate returnDate;
 
+    private boolean isReturned = false;
+
     public Long getId() {
         return id;
     }
@@ -60,4 +62,13 @@ public class Rental {
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
+
+    public Boolean getIsReturned() {
+        return isReturned;
+    }
+
+    public void setIsReturned(Boolean isReturned) {
+        this.isReturned = isReturned;
+    }
+
 }

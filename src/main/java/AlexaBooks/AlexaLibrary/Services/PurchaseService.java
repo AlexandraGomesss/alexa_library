@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -50,6 +51,10 @@ import java.time.LocalDate;
         bookRepo.save(book); // optional but good for consistency
 
         return purchaseRepo.save(purchase);
+    }
+
+    public List<Purchase> getPurchasesByClientId(Long id) {
+        return purchaseRepo.findByClientId(id);
     }
 }
 

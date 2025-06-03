@@ -19,17 +19,14 @@ public class RentalController {
     @Autowired
     private RentalService rentalService;
 
-    @PostMapping
-    public ResponseEntity<Rental> createRental(@RequestBody @Valid RentalRequestDTO dto) {
-        Rental rental = rentalService.createRental(dto.getClientId(),
-                dto.getBookId(), dto.getRentalDays());
-        return ResponseEntity.ok(rental);
+    @GetMapping("/active/{clientId}")
+    public List<Rental> getActiveRentals(@PathVariable Long clientId) {
+        return rentalService.getActiveRentalsByClientId(clientId);
     }
 
-
-    @GetMapping
-    public List<Rental> getAllRentals() {
-        return rentalService.getAllRentals();
-
+    @PostMapping("/return/{rentalId}")
+    public ResponseEntity<String> returnBook(@PathVariable Long rentalId) {
+        rentalService.returnBook(rentalId);
+        return ResponseEntity.ok("Book returned successfully");
     }
 }
