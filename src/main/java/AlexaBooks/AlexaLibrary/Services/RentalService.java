@@ -45,7 +45,7 @@ public class RentalService {
 
         List<Rental> existingRentals = rentalRepo.findByClientIdAndBookId(clientId, bookId);
         for (Rental r : existingRentals) {
-            if (r.getReturnDate().isAfter(LocalDate.now())) {
+            if (r.getDueDate().isAfter(LocalDate.now())) {
                 throw new RuntimeException("Client already has this book rented");
             }
         }
@@ -53,8 +53,7 @@ public class RentalService {
         Rental rental = new Rental();
         rental.setClient(client);
         rental.setBook(book);
-        rental.setRentalDate(LocalDate.now());
-        rental.setReturnDate(LocalDate.now().plusDays(rentalDays));
+        rental.setDueDate(LocalDate.now().plusDays(rentalDays));
 
         book.setQuantityAvailable(book.getQuantityAvailable() - 1);
         bookRepo.save(book);
@@ -66,10 +65,6 @@ public class RentalService {
         return rentalRepo.findByClientId(clientId);
     }
 
-    // ✅ ADD THIS METHOD
-    public List<Rental> getAllRentals() {
-        return rentalRepo.findAll();
-    }
 
     public List<Rental> getActiveRentalsByClientId(Long clientId) {
         return rentalRepo.findByClientIdAndIsReturnedFalse(clientId);

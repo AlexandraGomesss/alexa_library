@@ -10,6 +10,7 @@ import AlexaBooks.AlexaLibrary.Services.BookService;
 import AlexaBooks.AlexaLibrary.Services.ClientService;
 import AlexaBooks.AlexaLibrary.Services.PurchaseService;
 import AlexaBooks.AlexaLibrary.Services.RentalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 
@@ -29,11 +30,18 @@ public class LibraryAppMenu {
     private Client client;
 
 
-    public LibraryAppMenu(BookService bookService, ClientService clientService, RentalService rentalService, PurchaseService purchaseService) {
-        this.bookService = bookService;
-        this.clientService = clientService;
+    @Autowired
+    public LibraryAppMenu(
+            RentalService rentalService,
+            ClientService clientService,
+            BookService bookService,
+            PurchaseService purchaseService
+    ) {
         this.rentalService = rentalService;
+        this.clientService = clientService;
+        this.bookService = bookService;
         this.purchaseService = purchaseService;
+
     }
 
 
@@ -143,11 +151,21 @@ public class LibraryAppMenu {
 
     private void rentBook() {
         try {
-            //System.out.print("👤 Enter your Client ID: ");
-            //Long clientId = scanner.nextLong();
 
-            System.out.print(" Enter the Book ID to rent: ");
-            Long bookId = scanner.nextLong();
+            Long bookId;
+            while (true) {
+                System.out.print(" Enter the Book ID to rent: ");
+                if (scanner.hasNextLong()) {
+                    bookId = scanner.nextLong();
+                    scanner.nextLine(); // Clear buffer
+                    if (bookService.getBookById(bookId) != null) break;
+                    else System.out.println("Book ID not found. Try again.");
+                } else {
+                    System.out.println("Invalid input. Please enter a numeric Book ID.");
+                    scanner.next(); // Clear invalid input
+                }
+            }
+
 
             System.out.print(" Enter rental duration in days: ");
             int rentalDays = scanner.nextInt();
@@ -176,17 +194,38 @@ public class LibraryAppMenu {
         // 1. Show available books (reuse your existing method)
         viewAvailableBooks();
 
-        System.out.println("Enter the ID of the book you want to purchase:");
-        Long bookId = scanner.nextLong();
-        scanner.nextLine(); // consume leftover newline
+        Long bookId;
+        while (true) {
+            System.out.print("Enter the ID of the book you want to purchase: ");
+            if (scanner.hasNextLong()) {
+                bookId = scanner.nextLong();
+                scanner.nextLine(); // clear buffer
+                if (bookService.getBookById(bookId) != null) break;
+                else System.out.println("Book ID not found. Try again.");
+            } else {
+                System.out.println("Invalid input. Please enter a numeric Book ID.");
+                scanner.next(); // clear invalid input
+            }
+        }
 
-        System.out.println("Enter the quantity you want to purchase:");
-        int quantity = scanner.nextInt();
-        scanner.nextLine(); // consume leftover newline
+        int quantity;
+        while (true) {
+            System.out.print("Enter the quantity you want to purchase: ");
+            if (scanner.hasNextInt()) {
+                quantity = scanner.nextInt();
+                scanner.nextLine(); // clear buffer
+                if (quantity > 0) break;
+                else System.out.println("Quantity must be at least 1.");
+            } else {
+                System.out.println("Invalid input. Please enter a numeric quantity.");
+                scanner.next(); // clear invalid input
+            }
+        }
+
 
         try {
-            // Assuming you have a method to get the current client
-            Client currentClient = getCurrentClient();
+
+
 
             // Call your purchase service method
             Purchase purchase = purchaseService.createPurchase(client.getId(), bookId, quantity);
@@ -221,9 +260,7 @@ public class LibraryAppMenu {
                     System.out.println("- " + rental.getBook().getTitle() +
                             " | Rented on: " + rental.getRentalDate() +
                             " | Return by: " + returnDate);
-                            //rental.getBook().getTitle(),
-                            //rental.getRentalDate(),
-                            //rental.getReturnDate()
+
                 }
             }
 
@@ -246,39 +283,60 @@ public class LibraryAppMenu {
     }
 
     private void returnBook() {
-        List<Rental> rentals = rentalService.getActiveRentalsByClientId(client.getId());
+        List<Rental> activeRentals = rentalService.getActiveRentalsByClientId(client.getId());
 
-        if (rentals.isEmpty()) {
+        if (activeRentals.isEmpty()) {
             System.out.println("You have no active rentals to return.");
             return;
         }
 
         System.out.println("Your active rentals:");
-        for (Rental rental : rentals) {
-            System.out.printf("ID: %d | Book: %s | Rented on: %s | Return by: %s%n",
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        for (Rental rental : activeRentals) {
+            System.out.printf("Rental ID: %d | Book: %s | Due Date: %s%n",
                     rental.getId(),
                     rental.getBook().getTitle(),
-                    rental.getRentalDate(),
-                    rental.getReturnDate());
+                    rental.getDueDate() != null
+                            ? rental.getDueDate().format(formatter)
+                            : "N/A");
         }
 
-        System.out.print("Enter the ID of the rental you want to return: ");
-        Long rentalId = scanner.nextLong();
-        scanner.nextLine(); // consume newline
+        Long rentalId = null;
+
+        while (true) {
+            System.out.print("Enter the Rental ID of the book you want to return: ");
+            if (scanner.hasNextLong()) {
+                Long input = scanner.nextLong();
+                scanner.nextLine(); // Clear buffer
+
+                boolean exists = activeRentals.stream().anyMatch(r -> r.getId().equals(input));
+                if (exists) {
+                    rentalId = input;
+                    break;
+                } else {
+                    System.out.println("Invalid Rental ID. Please choose one from the list above.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a numeric Rental ID.");
+                scanner.next(); // Clear invalid input
+            }
+        }
+
 
         try {
             rentalService.returnBook(rentalId);
             System.out.println("Book returned successfully!");
-        } catch (Exception e) {
-            System.out.println("Error returning the book: " + e.getMessage());
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
 
+
     private void exit() {
-    System.out.println(" Goodbye and thank you for using Alexa Library!");
-    running = false;
-}
+        System.out.println(" Goodbye and thank you for using Alexa Library!");
+        running = false;
+    }
     private Client getCurrentClient() {
         return client;
     }

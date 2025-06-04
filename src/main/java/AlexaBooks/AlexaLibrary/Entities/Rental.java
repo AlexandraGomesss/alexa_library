@@ -19,6 +19,8 @@ public class Rental {
 
     private LocalDate rentalDate;
 
+    private LocalDate dueDate;
+
     private LocalDate returnDate;
 
     private boolean isReturned = false;
@@ -53,6 +55,14 @@ public class Rental {
 
     public void setRentalDate(LocalDate rentalDate) {
         this.rentalDate = rentalDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public LocalDate getReturnDate() {

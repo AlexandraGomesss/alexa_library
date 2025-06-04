@@ -23,7 +23,7 @@ public class AlexaLibraryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		System.out.println(" Welcomo to Alexa Library");
+		System.out.println(" Welcome to Alexa Library");
 		libraryAppMenu.showMenu();  // Delegates all menu logic
 	}
 }
