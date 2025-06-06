@@ -12,6 +12,8 @@ import AlexaBooks.AlexaLibrary.Services.PurchaseService;
 import AlexaBooks.AlexaLibrary.Services.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
@@ -59,8 +61,9 @@ public class LibraryAppMenu {
                     case 2 -> rentBook();
                     case 3 -> purchaseBook();
                     case 4 -> viewMyRentalsAndPurchases();
-                    case 5 -> returnBook(); // ✅ new method
-                    case 6 -> exit();
+                    case 5 -> returnBook();
+                    case 6 -> extendRental();// ✅ new method
+                    case 7 -> exit();
                     default -> System.out.println(" Invalid option. Please try again.");
                 }
             } else {
@@ -110,7 +113,8 @@ public class LibraryAppMenu {
 
         if (hasActiveRentals()) {
             System.out.println("5. Return a book");
-            System.out.println("6. Exit");
+            System.out.println("6. Extend a rental");
+            System.out.println("7. Exit");
         } else {
             System.out.println("5. Exit");
         }
@@ -167,14 +171,10 @@ public class LibraryAppMenu {
             }
 
 
-            System.out.print(" Enter rental duration in days: ");
-            int rentalDays = scanner.nextInt();
-
-            Rental rental = rentalService.createRental(client.getId(), bookId, rentalDays);
+            Rental rental = rentalService.createRental(client.getId(), bookId);
 
             System.out.println(" Rental created successfully!");
-            System.out.printf(" Book: %s | Return by: %s%n",
-                    rental.getBook().getTitle(), rental.getReturnDate());
+            System.out.println("Book: " + rental.getBook().getTitle() + " | Return by: " + rental.getDueDate());
 
         } catch (RuntimeException e) {
             System.out.println(" Error: " + e.getMessage());
@@ -189,6 +189,43 @@ public class LibraryAppMenu {
         List<Rental> activeRentals = rentalService.getActiveRentalsByClientId(client.getId());
         return !activeRentals.isEmpty();
     }
+
+    private void extendRental() {
+        List<Rental> activeRentals = rentalService.getActiveRentalsByClientId(client.getId());
+
+        if (activeRentals.isEmpty()) {
+            System.out.println("You have no active rentals to extend.");
+            return;
+        }
+
+        System.out.println("Choose a rental to extend:");
+
+        for (int i = 0; i < activeRentals.size(); i++) {
+            Rental r = activeRentals.get(i);
+            System.out.printf("%d. %s | Due by: %s%n", i + 1, r.getBook().getTitle(),
+                    r.getDueDate() != null ? r.getDueDate() : "N/A");
+        }
+
+        System.out.print("Enter the number of the rental you want to extend: ");
+        int choice = readChoice();
+
+        if (choice < 1 || choice > activeRentals.size()) {
+            System.out.println("Invalid selection.");
+            return;
+        }
+
+        Rental selectedRental = activeRentals.get(choice - 1);
+
+        try {
+            rentalService.extendRental(selectedRental.getId());
+            System.out.printf("Rental for '%s' extended by 14 days. New due date: %s%n",
+                    selectedRental.getBook().getTitle(),
+                    selectedRental.getDueDate().plusDays(14));
+        } catch (RuntimeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
 
     public void purchaseBook() {
         // 1. Show available books (reuse your existing method)
@@ -225,8 +262,6 @@ public class LibraryAppMenu {
 
         try {
 
-
-
             // Call your purchase service method
             Purchase purchase = purchaseService.createPurchase(client.getId(), bookId, quantity);
 
@@ -256,13 +291,22 @@ public class LibraryAppMenu {
                 System.out.println("You have no rentals.");
             } else {
                 for (Rental rental : rentals) {
-                    String returnDate = (rental.getReturnDate() != null) ? rental.getReturnDate().toString() : "N/A";
-                    System.out.println("- " + rental.getBook().getTitle() +
-                            " | Rented on: " + rental.getRentalDate() +
-                            " | Return by: " + returnDate);
+                    String returnBy = rental.getDueDate() != null ? rental.getDueDate().toString() : "N/A";
+                    String status = (rental.getIsReturned() != null && rental.getIsReturned()) ? "Returned" : "Active";
+
+                    System.out.println("- " + rental.getBook().getTitle()
+                            + " | Rented on: " + rental.getRentalDate()
+                            + " | Return by: " + returnBy
+                            + " | Status: " + status);
+
+                    if ((rental.getIsReturned() == null || !rental.getIsReturned()) && rental.getDueDate() != null && rental.getDueDate().isBefore(LocalDate.now())) {
+                        status = "Overdue";
+                    }
 
                 }
-            }
+
+                }
+
 
             System.out.println("\n Your Purchases:");
             if (purchases.isEmpty()) {

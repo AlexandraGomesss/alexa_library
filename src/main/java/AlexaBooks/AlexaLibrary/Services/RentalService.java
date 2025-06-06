@@ -28,7 +28,7 @@ public class RentalService {
     private BookRepository bookRepo;
 
     @Transactional
-    public Rental createRental(Long clientId, Long bookId, int rentalDays) {
+    public Rental createRental(Long clientId, Long bookId) {
         Client client = clientRepo.findById(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
@@ -39,25 +39,43 @@ public class RentalService {
             throw new RuntimeException("No copies of the book are available");
         }
 
-        if (rentalDays <= 0) {
-            throw new IllegalArgumentException("Rental duration must be at least 1 day");
-        }
 
         List<Rental> existingRentals = rentalRepo.findByClientIdAndBookId(clientId, bookId);
         for (Rental r : existingRentals) {
-            if (r.getDueDate().isAfter(LocalDate.now())) {
+            if (r.getIsReturned() == null || !r.getIsReturned()) {
+                // Rental is still active (not returned yet)
                 throw new RuntimeException("Client already has this book rented");
             }
         }
 
+
         Rental rental = new Rental();
         rental.setClient(client);
         rental.setBook(book);
-        rental.setDueDate(LocalDate.now().plusDays(rentalDays));
+        rental.setRentalDate(LocalDate.now());
+        rental.setDueDate(LocalDate.now().plusDays(14));
 
         book.setQuantityAvailable(book.getQuantityAvailable() - 1);
         bookRepo.save(book);
 
+        Rental savedRental = rentalRepo.saveAndFlush(rental); // << HERE
+        return savedRental;
+    }
+
+    @Transactional
+    public Rental extendRental(Long rentalId, int extraDays) {
+        Rental rental = rentalRepo.findById(rentalId)
+                .orElseThrow(() -> new RuntimeException("Rental not found"));
+
+        if (rental.getIsReturned()) {
+            throw new RuntimeException("Cannot extend a returned rental");
+        }
+
+        if (extraDays <= 0) {
+            throw new IllegalArgumentException("Extension days must be greater than 0");
+        }
+
+        rental.setDueDate(rental.getDueDate().plusDays(extraDays));
         return rentalRepo.save(rental);
     }
 
@@ -86,6 +104,26 @@ public class RentalService {
         Book book = rental.getBook();
         book.setQuantityAvailable(book.getQuantityAvailable() + 1);
         bookRepo.save(book);
+
+        rentalRepo.save(rental);
+    }
+
+    @Transactional
+    public void extendRental(Long rentalId) {
+        Rental rental = rentalRepo.findById(rentalId)
+                .orElseThrow(() -> new RuntimeException("Rental not found"));
+
+        if (rental.getIsReturned() != null && rental.getIsReturned()) {
+            throw new RuntimeException("Cannot extend a returned rental.");
+        }
+
+        if (rental.getDueDate() == null) {
+            throw new RuntimeException("Cannot extend rental without a due date.");
+        }
+
+        // Add 14 days to current due date
+        LocalDate newDueDate = rental.getDueDate().plusDays(14);
+        rental.setDueDate(newDueDate);
 
         rentalRepo.save(rental);
     }
