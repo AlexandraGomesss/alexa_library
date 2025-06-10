@@ -5,6 +5,8 @@ import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ClientService {
@@ -23,6 +25,10 @@ public class ClientService {
         client.setEmail(updatedClient.getEmail());
         client.setPassword(updatedClient.getPassword());
         return clientRepo.save(client);
+    }
+
+    public List<Client> getAllClients() {
+        return (List<Client>) clientRepo.findAll();
     }
 
     public static class NotFoundException extends RuntimeException {
