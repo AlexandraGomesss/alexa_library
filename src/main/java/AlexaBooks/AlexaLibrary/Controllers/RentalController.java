@@ -24,9 +24,16 @@ public class RentalController {
         return rentalService.getActiveRentalsByClientId(clientId);
     }
 
+    @PostMapping("/rent")
+        public ResponseEntity<Rental> rentBook(@Valid @RequestBody RentalRequestDTO rentalRequestDTO) {
+            Rental rental = rentalService.rentBook(rentalRequestDTO);
+            return ResponseEntity.ok(rental);
+        }
+
     @PostMapping("/return/{rentalId}")
     public ResponseEntity<String> returnBook(@PathVariable Long rentalId) {
         rentalService.returnBook(rentalId);
         return ResponseEntity.ok("Book returned successfully");
     }
 }
+

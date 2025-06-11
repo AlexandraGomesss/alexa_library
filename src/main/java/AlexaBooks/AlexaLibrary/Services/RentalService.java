@@ -1,6 +1,7 @@
 package AlexaBooks.AlexaLibrary.Services;
 
 
+import AlexaBooks.AlexaLibrary.DTO.RentalRequestDTO;
 import AlexaBooks.AlexaLibrary.Repositories.BookRepository;
 import AlexaBooks.AlexaLibrary.Repositories.ClientRepository;
 import AlexaBooks.AlexaLibrary.Repositories.RentalRepository;
@@ -61,6 +62,14 @@ public class RentalService {
         Rental savedRental = rentalRepo.saveAndFlush(rental); // << HERE
         return savedRental;
     }
+
+    @Transactional
+    public Rental rentBook(RentalRequestDTO rentalRequestDTO) {
+        Long clientId = rentalRequestDTO.getClientId();
+        Long bookId = rentalRequestDTO.getBookId();
+        return createRental(clientId, bookId);
+    }
+
 
     @Transactional
     public Rental extendRental(Long rentalId, int extraDays) {
