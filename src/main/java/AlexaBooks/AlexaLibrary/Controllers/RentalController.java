@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,9 +26,11 @@ public class RentalController {
     }
 
     @PostMapping("/rent")
-        public ResponseEntity<Rental> rentBook(@Valid @RequestBody RentalRequestDTO rentalRequestDTO) {
+        public ResponseEntity<RentalRequestDTO.RentalResponseDTO> rentBook(@Valid @RequestBody RentalRequestDTO rentalRequestDTO) {
             Rental rental = rentalService.rentBook(rentalRequestDTO);
-            return ResponseEntity.ok(rental);
+            String bookTitle = rental.getBook().getTitle();
+            LocalDate dueDate = rental.getDueDate();
+        return ResponseEntity.ok(new RentalRequestDTO.RentalResponseDTO(rental.getId(), bookTitle, dueDate));
         }
 
     @PostMapping("/return/{rentalId}")

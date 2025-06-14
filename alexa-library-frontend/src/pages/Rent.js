@@ -6,11 +6,13 @@ const Rent = () => {
     const [bookId, setBookId] = useState("");
     const [rentalResult, setRentalResult] = useState(null);
     const [error, setError] = useState(null);
+    const [validationErrors, setValidationErrors] = useState({});
 
     const handleRent = async (e) => {
         e.preventDefault();
         setError(null);
         setRentalResult(null);
+        setValidationErrors({});
 
         try {
             const response = await axios.post("http://localhost:8080/rentals/rent", {
@@ -19,8 +21,23 @@ const Rent = () => {
             });
 
             setRentalResult(response.data);
-        } catch (err) {
-            setError(err.response?.data?.message || "Something went wrong");
+        } catch (error) {
+            console.log("Error caught from backend:", error.response?.data);
+
+            const data = error.response?.data;
+            //const backendMessage = error.response?.data?.message || "Something went wrong";
+
+            if (data?.errors) {
+                setValidationErrors(data.errors); // ⬅️ NEW
+            } else {
+                const backendMessage = data?.message || "Something went wrong";
+
+                if (backendMessage.includes("already rented")) {
+                    setError("The book is already rented.");
+                } else {
+                    setError(backendMessage);
+                }
+            }
         }
     };
 
@@ -53,13 +70,18 @@ const Rent = () => {
 
             {rentalResult && (
                 <div style={{ marginTop: "20px", color: "green" }}>
-                    ✅ Rental created! ID: {rentalResult.id}
+                    <p>
+                        Rental created for: {rentalResult.bookTitle}
+                    </p>
+                    <p>
+                        The due date for returning the book is: {rentalResult.dueDate}
+                    </p>
                 </div>
             )}
 
             {error && (
                 <div style={{ marginTop: "20px", color: "red" }}>
-                    ❌ Error: {error}
+                     Error: {error}
                 </div>
             )}
         </div>

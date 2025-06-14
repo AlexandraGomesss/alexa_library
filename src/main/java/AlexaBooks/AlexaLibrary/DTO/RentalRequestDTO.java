@@ -2,8 +2,10 @@ package AlexaBooks.AlexaLibrary.DTO;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.time.LocalDate;
 
 @Data
 public class RentalRequestDTO {
@@ -14,8 +16,8 @@ public class RentalRequestDTO {
     @NotNull(message = "Book ID ir required")
     private Long bookId;
 
-    @Min(value = 1, message = "Rental days must be at least 1")
-    private int rentalDays;
+    /*@Min(value = 1, message = "Rental days must be at least 1")
+    private int rentalDays;*/
 
     public Long getClientId() {
         return clientId;
@@ -33,11 +35,23 @@ public class RentalRequestDTO {
         this.bookId = bookId;
     }
 
-    public int getRentalDays() {
+    /*public int getRentalDays() {
         return rentalDays;
     }
 
     public void setRentalDays(int rentalDays) {
         this.rentalDays = rentalDays;
+    }*/
+
+
+    @Data
+    @AllArgsConstructor
+    public static class RentalResponseDTO {
+        private Long id;
+        private String bookTitle;
+        private LocalDate dueDate;
     }
+
 }
+
+
