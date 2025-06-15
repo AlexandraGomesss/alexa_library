@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAvailableBooks } from '../services/bookService';
+import {HomeButton} from "../components/HomeButton";
 
 const BooksPage = () => {
     const [books, setBooks] = useState([]);
@@ -28,6 +29,7 @@ const BooksPage = () => {
                     ))}
                 </ul>
             )}
+            <HomeButton />
         </div>
     );
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAvailableBooks } from '../services/bookService';
 import { createPurchase } from '../services/purchaseService';
+import {HomeButton} from "../components/HomeButton";
 
 const PurchasePage = () => {
     const clientId = localStorage.getItem('clientId');
@@ -76,10 +77,7 @@ const PurchasePage = () => {
             </form>
 
             {message && <p style={{ marginTop: '10px' }}>{message}</p>}
-
-            <button onClick={() => navigate('/')} style={{ marginTop: '10px' }}>
-                ⬅ Back to Home
-            </button>
+            <HomeButton />
         </div>
     );
 };

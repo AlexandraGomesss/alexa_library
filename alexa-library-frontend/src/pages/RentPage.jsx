@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {HomeButton} from "../components/HomeButton";
 
 const Rent = () => {
     const [clientId, setClientId] = useState("");
@@ -84,6 +85,7 @@ const Rent = () => {
                     Error: {error}
                 </div>
             )}
+            <HomeButton />
         </div>
     );
 };
