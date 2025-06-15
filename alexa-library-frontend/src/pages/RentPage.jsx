@@ -81,7 +81,7 @@ const Rent = () => {
 
             {error && (
                 <div style={{ marginTop: "20px", color: "red" }}>
-                     Error: {error}
+                    Error: {error}
                 </div>
             )}
         </div>
