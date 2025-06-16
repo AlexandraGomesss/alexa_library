@@ -1,5 +1,6 @@
 package AlexaBooks.AlexaLibrary.Controllers;
 
+import AlexaBooks.AlexaLibrary.DTO.RentalDTO;
 import AlexaBooks.AlexaLibrary.DTO.RentalRequestDTO;
 import AlexaBooks.AlexaLibrary.Entities.Rental;
 import AlexaBooks.AlexaLibrary.Services.RentalService;
@@ -14,15 +15,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rentals")
+@RequestMapping("/api/rentals")
 public class RentalController {
 
     @Autowired
     private RentalService rentalService;
 
     @GetMapping("/active/{clientId}")
-    public List<Rental> getActiveRentals(@PathVariable Long clientId) {
-        return rentalService.getActiveRentalsByClientId(clientId);
+    public List<RentalDTO> getActiveRentals(@PathVariable Long clientId) {
+        List<Rental> rentals = rentalService.getActiveRentalsByClientId(clientId);
+        return rentals.stream()
+                .map(rental -> new RentalDTO(
+                        rental.getId(),
+                        rental.getBook().getTitle(),
+                        rental.getDueDate()
+                ))
+                .toList();
     }
 
     @PostMapping("/rent")

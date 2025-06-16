@@ -1,4 +1,3 @@
-
 package AlexaBooks.AlexaLibrary;
 
 import org.springframework.context.annotation.Bean;
@@ -21,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests without auth
                         .requestMatchers(HttpMethod.GET, "/api/clients/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/rentals/**").authenticated()
                         .requestMatchers("/api/**").authenticated() // Require auth for all other API requests
                         .anyRequest().permitAll() // Allow public access to non-API endpoints
                 )

@@ -6,6 +6,7 @@ import BooksPage from './pages/BooksPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RentPage from './pages/RentPage';
 import PurchasePage from './pages/Purchase';
+import MyHistory from './pages/MyHistory.jsx';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/rent" element={<RentPage />} />
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="/purchase" element={<PurchasePage />} />
+                <Route path="/my-library" element={<MyHistory />} />
             </Routes>
         </Router>
     );

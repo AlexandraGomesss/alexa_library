@@ -1,5 +1,6 @@
 package AlexaBooks.AlexaLibrary.Services;
 
+import AlexaBooks.AlexaLibrary.DTO.PurchaseDTO;
 import AlexaBooks.AlexaLibrary.Entities.Book;
 import AlexaBooks.AlexaLibrary.Entities.Client;
 import AlexaBooks.AlexaLibrary.Entities.Purchase;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,8 +55,16 @@ import java.util.List;
         return purchaseRepo.save(purchase);
     }
 
-    public List<Purchase> getPurchasesByClientId(Long id) {
-        return purchaseRepo.findByClientId(id);
+    public List<PurchaseDTO> getPurchasesByClientId(Long clientId) {
+        List<Purchase> purchases = purchaseRepo.findByClientId(clientId);
+        return purchases.stream()
+                .map(p -> new PurchaseDTO(
+                        p.getId(),                      // purchaseId
+                        p.getBook().getTitle(),         // bookTitle
+                        p.getPurchaseDate(),            // purchaseDate
+                        p.getQuantity(),                // quantity
+                        p.getTotalPrice()))             // totalPrice
+                .collect(Collectors.toList());
     }
 }
 

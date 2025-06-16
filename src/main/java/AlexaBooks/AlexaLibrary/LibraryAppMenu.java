@@ -1,5 +1,6 @@
 package AlexaBooks.AlexaLibrary;
 
+import AlexaBooks.AlexaLibrary.DTO.PurchaseDTO;
 import AlexaBooks.AlexaLibrary.Entities.Book;
 import AlexaBooks.AlexaLibrary.Entities.Client;
 import AlexaBooks.AlexaLibrary.Entities.Purchase;
@@ -284,7 +285,7 @@ public class LibraryAppMenu {
     private void viewMyRentalsAndPurchases() {
         try {
             List<Rental> rentals = rentalService.getRentalsByClientId(client.getId());
-            List<Purchase> purchases = purchaseService.getPurchasesByClientId(client.getId());
+            List<PurchaseDTO> purchases = purchaseService.getPurchasesByClientId(client.getId());
 
             System.out.println("\n Your Rentals:");
             if (rentals.isEmpty()) {
@@ -312,13 +313,14 @@ public class LibraryAppMenu {
             if (purchases.isEmpty()) {
                 System.out.println("You have no purchases.");
             } else {
-                for (Purchase purchase : purchases) {
+                for (PurchaseDTO purchase : purchases) {
                     System.out.printf("- %s | Quantity: %d | Total: %.2f€ | Date: %s%n",
-                            purchase.getBook().getTitle(),
+                            purchase.getBookTitle(),
                             purchase.getQuantity(),
                             purchase.getTotalPrice(),
                             purchase.getPurchaseDate());
                 }
+
             }
 
         } catch (Exception e) {
