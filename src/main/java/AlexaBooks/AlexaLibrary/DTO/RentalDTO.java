@@ -12,4 +12,8 @@ public class RentalDTO {
         this.bookTitle = bookTitle;
         this.dueDate = dueDate;
     }
+
+    public Long getId() { return rentalId; }
+    public String getBookTitle() { return bookTitle; }
+    public LocalDate getDueDate() { return dueDate; }
 }

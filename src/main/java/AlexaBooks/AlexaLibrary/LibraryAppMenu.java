@@ -308,7 +308,6 @@ public class LibraryAppMenu {
 
                 }
 
-
             System.out.println("\n Your Purchases:");
             if (purchases.isEmpty()) {
                 System.out.println("You have no purchases.");

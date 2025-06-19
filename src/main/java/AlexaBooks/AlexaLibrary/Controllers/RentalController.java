@@ -46,5 +46,12 @@ public class RentalController {
         rentalService.returnBook(rentalId);
         return ResponseEntity.ok("Book returned successfully");
     }
+
+    @PostMapping("/extend/{rentalId}")
+    public ResponseEntity<String> extendRental(@PathVariable Long rentalId) {
+        rentalService.extendRental(rentalId);
+        return ResponseEntity.ok("Rental extended successfully");
+    }
+
 }
 

@@ -7,6 +7,8 @@ import NotFoundPage from './pages/NotFoundPage';
 import RentPage from './pages/RentPage';
 import PurchasePage from './pages/Purchase';
 import MyHistory from './pages/MyHistory.jsx';
+import ReturnBookPage from './pages/ReturnBookPage';
+import ExtendRentalPage from "./pages/ExtendRentalPage";
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="/purchase" element={<PurchasePage />} />
                 <Route path="/my-library" element={<MyHistory />} />
+                <Route path="/return-book" element={<ReturnBookPage />} />
+                <Route path="/extend-rental" element={<ExtendRentalPage />} />
             </Routes>
         </Router>
     );

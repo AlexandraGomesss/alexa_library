@@ -29,3 +29,23 @@ export const fetchClientPurchases = async (clientId) => {
         throw error;
     }
 };
+
+export const returnBook = async (rentalId) => {
+    try {
+        const response = await api.post(`${API_BASE_URL}/rentals/return/${rentalId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error returning book:', error);
+        throw error;
+    }
+};
+
+export const extendRental = async (rentalId) => {
+    try {
+        const response = await api.post(`${API_BASE_URL}/rentals/extend/${rentalId}`);
+        return response.data; // Apenas mensagem, tipo: "Rental extended successfully"
+    } catch (error) {
+        console.error('Error extending rental:', error);
+        throw error;
+    }
+};

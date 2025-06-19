@@ -16,6 +16,7 @@ public class Book {
     private String isbn;
     private String genre;
     private Boolean available;
+
     @Column(name = "forsale")
     private Boolean forSale;
     private double price;
@@ -23,6 +24,10 @@ public class Book {
     private int publicationYear;
     @Column(name = "quantityavailable")
     private int quantityAvailable;
+
+    @Column(name = "cover_url")
+    private String coverURL;
+
 
     public Long getId() {
         return id;
@@ -102,6 +107,14 @@ public class Book {
 
     public void setQuantityAvailable(int quantityAvailable) {
         this.quantityAvailable = quantityAvailable;
+    }
+
+    public String getCoverURL() {
+        return coverURL;
+    }
+
+    public void setCoverURL(String coverURL) {
+        this.coverURL = coverURL;
     }
 }
 
