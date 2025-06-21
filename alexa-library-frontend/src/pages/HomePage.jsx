@@ -36,8 +36,8 @@ const HomePage = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-gray-600 text-xl">Loading...</div>
+            <div className="flex justify-center items-center h-screen bg-gray-100 dark:bg-gray-900">
+                <div className="text-gray-600 dark:text-gray-300 text-xl">Loading...</div>
             </div>
         );
     }
@@ -52,31 +52,37 @@ const HomePage = () => {
     ];
 
     return (
-        <div className="max-w-6xl mx-auto mt-10 p-6">
-            <h1 className="text-4xl font-bold text-center text-blue-600 mb-4">📚 Alexa Library</h1>
-            <h2 className="text-lg text-center text-gray-700 dark:text-gray-200 mb-8">
-                Welcome, <span className="font-semibold">{client ? client.name : `Client #${clientId}`}</span>
-            </h2>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
+            <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl font-extrabold text-blue-700 dark:text-blue-400 mb-2">📚 Alexa Library</h1>
+                    <h2 className="text-lg text-gray-700 dark:text-gray-300">
+                        Welcome, <span className="font-semibold">{client ? client.name : `Client #${clientId}`}</span>
+                    </h2>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {menuItems.map((item, index) => (
-                    <Link
-                        key={index}
-                        to={item.to}
-                        className="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-700"
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {menuItems.map((item, index) => (
+                        <Link
+                            key={index}
+                            to={item.to}
+                            className="block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all"
+                        >
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{item.subtitle}</p>
+                        </Link>
+                    ))}
+
+                    <button
+                        onClick={handleExit}
+                        className="block text-left w-full p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all"
                     >
-                        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{item.subtitle}</p>
-                    </Link>
-                ))}
-
-                <button
-                    onClick={handleExit}
-                    className="block p-6 text-left w-full bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-700"
-                >
-                    <h3 className="text-lg font-semibold text-red-600 dark:hover:text-red-400">🚪 Exit</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Log out and return to login page</p>
-                </button>
+                        <h3 className="text-lg font-semibold text-red-600 dark:text-red-400">🚪 Exit</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                            Log out and return to login page
+                        </p>
+                    </button>
+                </div>
             </div>
         </div>
     );

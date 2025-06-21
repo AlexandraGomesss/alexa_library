@@ -61,6 +61,7 @@ import java.util.stream.Collectors;
                 .map(p -> new PurchaseDTO(
                         p.getId(),                      // purchaseId
                         p.getBook().getTitle(),         // bookTitle
+                        p.getBook().getCoverURL(),
                         p.getPurchaseDate(),            // purchaseDate
                         p.getQuantity(),                // quantity
                         p.getTotalPrice()))             // totalPrice
