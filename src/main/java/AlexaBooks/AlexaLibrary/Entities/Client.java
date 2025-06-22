@@ -18,7 +18,7 @@ public class Client {
     @Column(nullable = false)
     private String password;
 
-    // === Getters & Setters ===
+
 
     public Long getId() {
         return id;
@@ -28,7 +28,7 @@ public class Client {
         this.id = id;
     }
 
-    public String getName() {  // ✅ Correct getter for full name
+    public String getName() {
         return name;
     }
 
@@ -52,7 +52,6 @@ public class Client {
         this.password = password;
     }
 
-    // Optional: This method is not necessary, but you can keep it if you use it somewhere
     public boolean isEmpty() {
         return false;
     }

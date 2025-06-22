@@ -47,10 +47,10 @@ import java.util.stream.Collectors;
         purchase.setBook(book);
         purchase.setQuantity(quantity);
         purchase.setTotalPrice(totalPrice);
-        purchase.setPurchaseDate(LocalDate.now()); // ✅ add this line
+        purchase.setPurchaseDate(LocalDate.now());
 
         book.setQuantityAvailable(book.getQuantityAvailable() - quantity);
-        bookRepo.save(book); // optional but good for consistency
+        bookRepo.save(book);
 
         return purchaseRepo.save(purchase);
     }
@@ -59,12 +59,12 @@ import java.util.stream.Collectors;
         List<Purchase> purchases = purchaseRepo.findByClientId(clientId);
         return purchases.stream()
                 .map(p -> new PurchaseDTO(
-                        p.getId(),                      // purchaseId
-                        p.getBook().getTitle(),         // bookTitle
+                        p.getId(),
+                        p.getBook().getTitle(),
                         p.getBook().getCoverURL(),
-                        p.getPurchaseDate(),            // purchaseDate
-                        p.getQuantity(),                // quantity
-                        p.getTotalPrice()))             // totalPrice
+                        p.getPurchaseDate(),
+                        p.getQuantity(),
+                        p.getTotalPrice()))
                 .collect(Collectors.toList());
     }
 }

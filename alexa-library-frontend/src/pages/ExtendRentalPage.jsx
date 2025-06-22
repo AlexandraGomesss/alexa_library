@@ -14,8 +14,8 @@ const ExtendRentalPage = () => {
                 const data = await fetchClientRentals(clientId);
                 setRentals(data);
             } catch (err) {
-                console.error('Failed to fetch rentals:', err);
-                setError('❌ Failed to load active rentals.');
+                console.error('⛔ Failed to fetch rentals:', err);
+                setError('⛔ Failed to load active rentals.');
             }
         };
 
@@ -30,7 +30,7 @@ const ExtendRentalPage = () => {
             const responseMessage = await extendRental(rentalId);
             setMessage('✅ Rental extended successfully.');
 
-            // Atualiza localmente o dueDate para refletir os +14 dias
+
             setRentals((prevRentals) =>
                 prevRentals.map((rental) =>
                     rental.rentalId === rentalId
@@ -42,14 +42,14 @@ const ExtendRentalPage = () => {
                                 )
                             )
                                 .toISOString()
-                                .split('T')[0], // formata para yyyy-mm-dd
+                                .split('T')[0],
                         }
                         : rental
                 )
             );
         } catch (err) {
             console.error('Error extending rental:', err);
-            setError('❌ Failed to extend rental.');
+            setError('⛔ Failed to extend rental.');
         }
     };
 

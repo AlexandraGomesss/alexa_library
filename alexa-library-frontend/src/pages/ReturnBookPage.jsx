@@ -15,7 +15,7 @@ const ReturnBookPage = () => {
                 const data = await fetchClientRentals(clientId);
                 setRentals(data);
             } catch (err) {
-                setError('❌ Failed to load active rentals.');
+                setError('⛔ Failed to load active rentals.');
             } finally {
                 setLoading(false);
             }
@@ -29,10 +29,10 @@ const ReturnBookPage = () => {
         setError('');
         try {
             await returnBook(rentalId);
-            setMessage('✅ Book returned successfully.');
+            setMessage('👍Book returned successfully.');
             setRentals((prev) => prev.filter((r) => r.rentalId !== rentalId));
         } catch (err) {
-            setError('❌ Failed to return the book.');
+            setError('⛔ Failed to return the book.');
         }
     };
 

@@ -20,5 +20,4 @@ public class RentalDTO {
     public String getBookCoverUrl() { return bookCoverUrl; }
     public LocalDate getDueDate() { return dueDate; }
 
-
 }

@@ -11,7 +11,7 @@ function MyHistory() {
         const clientId = localStorage.getItem('clientId');
 
         if (!clientId) {
-            setError('You must be logged in to view history.');
+            setError('⛔ You must be logged in to view history.');
             return;
         }
 
@@ -23,7 +23,7 @@ function MyHistory() {
                 setPurchases(purchaseData);
                 setError('');
             } catch (err) {
-                setError('Failed to fetch data. Make sure the client ID is correct.');
+                setError('⛔ Failed to fetch data. Make sure the client ID is correct.');
             }
         };
 
@@ -42,7 +42,7 @@ function MyHistory() {
                 )}
 
                 <div className="mb-10">
-                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">📚 Rentals</h3>
+                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4"> 📔 Rentals</h3>
                     {rentals.length === 0 ? (
                         <p className="text-gray-500 dark:text-gray-400">You haven’t rented any books yet.</p>
                     ) : (
@@ -75,7 +75,7 @@ function MyHistory() {
                 </div>
 
                 <div className="mb-10">
-                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">🛒 Purchases</h3>
+                    <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4"> 💰 Purchases</h3>
                     {purchases.length === 0 ? (
                         <p className="text-gray-500 dark:text-gray-400">You haven’t purchased any books yet.</p>
                     ) : (

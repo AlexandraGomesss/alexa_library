@@ -1,4 +1,4 @@
-// src/services/rentService.js
+
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -20,7 +20,7 @@ export async function rentBook(clientId, bookId) {
         });
         return response.data;
     } catch (error) {
-        // Repasse o erro para o componente lidar
+
         throw error.response?.data || { message: "Unknown error" };
     }
 }

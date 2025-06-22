@@ -13,7 +13,7 @@ const HomePage = () => {
         localStorage.removeItem('clientName');
         localStorage.removeItem('token');
         navigate('/login');
-        alert('You have been logged out successfully. Goodbye!');
+        alert('👍 You have been logged out successfully. Goodbye!');
     };
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const HomePage = () => {
                     setClient(clientData);
                     localStorage.setItem('clientName', clientData.name);
                 } catch (error) {
-                    console.error('Error loading client data:', error);
+                    console.error('⛔ Error loading client data:', error);
                 } finally {
                     setLoading(false);
                 }
@@ -44,8 +44,8 @@ const HomePage = () => {
 
     const menuItems = [
         { to: "/books", title: "📖 Available Books", subtitle: "Access all books currently available" },
-        { to: "/rent", title: "📚 Rent a Book", subtitle: "Choose a book and start reading today" },
-        { to: "/purchase", title: "🛒 Purchase a Book", subtitle: "Buy your favorite titles" },
+        { to: "/rent", title: "📔 Rent a Book", subtitle: "Choose a book and start reading today" },
+        { to: "/purchase", title: "💰 Purchase a Book", subtitle: "Buy your favorite titles" },
         { to: "/my-library", title: "📁 My Library", subtitle: "View your rentals and purchases" },
         { to: "/return-book", title: "🔄 Return a Book", subtitle: "Manage your current rentals" },
         { to: "/extend-rental", title: "⏳ Extend a Rental", subtitle: "Need more time? Extend here" },
@@ -55,7 +55,7 @@ const HomePage = () => {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-10">
-                    <h1 className="text-4xl font-extrabold text-blue-700 dark:text-blue-400 mb-2">📚 Alexa Library</h1>
+                    <h1 className="text-4xl font-extrabold text-blue-700 dark:text-blue-400 mb-2">📖 Alexa Library</h1>
                     <h2 className="text-lg text-gray-700 dark:text-gray-300">
                         Welcome, <span className="font-semibold">{client ? client.name : `Client #${clientId}`}</span>
                     </h2>

@@ -22,7 +22,7 @@ const LoginPage = () => {
                 className="max-w-sm w-full bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg"
             >
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-                    Welcome to Alexa Library 📚
+                    Welcome to Alexa Library 📖
                 </h2>
 
                 <div className="mb-5">

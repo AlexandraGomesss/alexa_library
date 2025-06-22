@@ -28,7 +28,7 @@ public class RentalController {
                 .map(rental -> new RentalDTO(
                         rental.getId(),
                         rental.getBook().getTitle(),
-                        rental.getBook().getCoverURL(), // ✅ NOVO
+                        rental.getBook().getCoverURL(),
                         rental.getDueDate()
                 ))
                 .toList();

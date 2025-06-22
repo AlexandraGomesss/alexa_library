@@ -18,7 +18,7 @@ const Rent = () => {
         setValidationErrors({});
 
         if (!clientId) {
-            setError("❌ You must be logged in to rent a book.");
+            setError("⛔ You must be logged in to rent a book.");
             return;
         }
 
@@ -81,7 +81,7 @@ const Rent = () => {
                 {rentalResult && (
                     <div className="mt-6 p-4 rounded-lg bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                         <p>
-                            ✅ Rental created for: <strong>{rentalResult.bookTitle}</strong>
+                            👍 Rental created for: <strong>{rentalResult.bookTitle}</strong>
                         </p>
                         <p>
                             📅 Due date: <strong>{rentalResult.dueDate}</strong>
@@ -91,7 +91,7 @@ const Rent = () => {
 
                 {error && (
                     <div className="mt-6 p-4 rounded-lg bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
-                        ❌ Error: {error}
+                        ⛔ Error: {error}
                     </div>
                 )}
 

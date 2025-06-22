@@ -9,7 +9,7 @@ const BooksPage = () => {
     useEffect(() => {
         getAvailableBooks()
             .then(data => setBooks(data))
-            .catch(error => console.error('Error fetching books:', error))
+            .catch(error => console.error('⛔ Error fetching books:', error))
             .finally(() => setLoading(false));
     }, []);
 
@@ -17,7 +17,7 @@ const BooksPage = () => {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-6">
             <div className="max-w-5xl mx-auto">
                 <h2 className="text-3xl font-bold text-center text-blue-600 dark:text-blue-400 mb-8">
-                    📚 Available Books
+                    📔 Available Books
                 </h2>
 
                 {loading ? (

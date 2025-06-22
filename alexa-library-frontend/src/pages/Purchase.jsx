@@ -21,7 +21,7 @@ const PurchasePage = () => {
                 );
                 setBooks(filteredBooks);
             } catch (error) {
-                console.error('Error fetching books:', error);
+                console.error('⛔ Error fetching books:', error);
             }
         };
 
@@ -32,10 +32,10 @@ const PurchasePage = () => {
         e.preventDefault();
         try {
             await createPurchase(clientId, selectedBookId, quantity);
-            setMessage('✅ Purchase successful!');
+            setMessage('👍 Purchase successful!');
         } catch (error) {
-            console.error('Error making purchase:', error);
-            setMessage('❌ Purchase failed. Please try again.');
+            console.error('⛔ Error making purchase:', error);
+            setMessage('⛔ Purchase failed. Please try again.');
         }
     };
 
@@ -105,7 +105,7 @@ const PurchasePage = () => {
 
                 {message && (
                     <div className={`mt-6 p-4 rounded-lg text-sm font-medium ${
-                        message.includes('✅')
+                        message.includes('👍')
                             ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
                             : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
                     }`}>

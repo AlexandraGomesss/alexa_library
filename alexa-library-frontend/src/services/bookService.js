@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/books';
 
-// Create an Axios instance with default auth credentials
 const api = axios.create({
     auth: {
         username: 'admin',
@@ -16,6 +15,6 @@ export const getAvailableBooks = async () => {
         return response.data;
     } catch (error) {
         console.error('Error fetching books:', error);
-        throw error; // Re-throw the error so components can handle it
+        throw error;
     }
 };

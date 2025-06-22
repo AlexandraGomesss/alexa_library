@@ -26,7 +26,7 @@ public class Purchase {
     private double totalPrice;
 
     public Purchase() {
-        this.purchaseDate = LocalDate.now(); // Automatically set when created
+        this.purchaseDate = LocalDate.now();
     }
 
     public Long getId() {

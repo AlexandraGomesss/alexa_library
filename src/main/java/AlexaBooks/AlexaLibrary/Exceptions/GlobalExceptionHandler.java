@@ -13,7 +13,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-  // Handle validation errors
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
-  // Handle custom not found exceptions
+
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<Map<String, String>> handleNotFound(ResourceNotFoundException ex) {
     Map<String, String> response = new HashMap<>();
@@ -38,16 +38,16 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
-  // ✅ Handle ResponseStatusException
+
   @ExceptionHandler(ResponseStatusException.class)
   public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
     Map<String, String> response = new HashMap<>();
-    response.put("message", ex.getReason()); // Use ex.getReason() instead of ex.getMessage()
+    response.put("message", ex.getReason());
 
     return new ResponseEntity<>(response, ex.getStatusCode());
   }
 
-  // Handle generic exceptions
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Map<String, String>> handleGeneric(Exception ex) {
     Map<String, String> response = new HashMap<>();

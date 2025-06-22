@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class PurchaseDTO {
     private Long purchaseId;
     private String bookTitle;
-    private String bookCoverUrl; // ✅ NOVO
+    private String bookCoverUrl;
     private LocalDate purchaseDate;
     private int quantity;
     private double totalPrice;

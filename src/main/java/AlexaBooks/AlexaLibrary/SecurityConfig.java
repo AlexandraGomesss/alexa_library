@@ -15,16 +15,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
-                .cors(Customizer.withDefaults()) // Enable CORS with your WebConfig settings
+                .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests without auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/clients/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/rentals/**").authenticated()
-                        .requestMatchers("/api/**").authenticated() // Require auth for all other API requests
-                        .anyRequest().permitAll() // Allow public access to non-API endpoints
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults()) // Enable HTTP Basic Auth
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 }

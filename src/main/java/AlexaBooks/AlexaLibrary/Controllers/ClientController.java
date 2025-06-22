@@ -27,7 +27,7 @@ public class ClientController {
     @Autowired
     private ClientRepository clientRepo;
 
-    // ✅ Add this GET endpoint
+
     @GetMapping("/{id}")
     public ResponseEntity<Client> getClientById(@PathVariable Long id) {
         Client client = clientService.getClientById(id);
@@ -44,7 +44,7 @@ public class ClientController {
         Client client = new Client();
         client.setName(dto.getFirstName());
         client.setEmail(dto.getEmail());
-        client.setPassword(dto.getPassword()); // NOTE: ideally hash password in real apps
+        client.setPassword(dto.getPassword());
         return ResponseEntity.ok(clientRepo.save(client));
     }
 }

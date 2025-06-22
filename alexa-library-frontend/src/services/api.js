@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
-// Create an Axios instance with default auth credentials
+
 const api = axios.create({
     auth: {
         username: 'admin',
@@ -43,7 +43,7 @@ export const returnBook = async (rentalId) => {
 export const extendRental = async (rentalId) => {
     try {
         const response = await api.post(`${API_BASE_URL}/rentals/extend/${rentalId}`);
-        return response.data; // Apenas mensagem, tipo: "Rental extended successfully"
+        return response.data;
     } catch (error) {
         console.error('Error extending rental:', error);
         throw error;

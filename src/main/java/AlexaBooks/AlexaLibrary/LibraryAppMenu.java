@@ -63,7 +63,7 @@ public class LibraryAppMenu {
                     case 3 -> purchaseBook();
                     case 4 -> viewMyRentalsAndPurchases();
                     case 5 -> returnBook();
-                    case 6 -> extendRental();// ✅ new method
+                    case 6 -> extendRental();
                     case 7 -> exit();
                     default -> System.out.println(" Invalid option. Please try again.");
                 }
@@ -78,7 +78,7 @@ public class LibraryAppMenu {
                 }
             }
 
-            System.out.println(); // Add space between iterations
+            System.out.println();
         }
     }
 
@@ -94,8 +94,8 @@ public class LibraryAppMenu {
             long inputId = scanner.nextLong();
 
             try {
-                client = clientService.getClientById(inputId);  //  Fetch and store client
-                System.out.printf(" Welcome, %s!%n%n", client.getName());  //  Use client name
+                client = clientService.getClientById(inputId);
+                System.out.printf(" Welcome, %s!%n%n", client.getName());
                 break;
             } catch (ClientService.NotFoundException e) {
                 System.out.println(" Client not found. Please try again.");
@@ -126,7 +126,7 @@ public class LibraryAppMenu {
     private int readChoice() {
         while (!scanner.hasNextInt()) {
             System.out.println(" Please enter a valid number.");
-            scanner.next(); // Skip invalid input
+            scanner.next();
             System.out.print("Enter your choice: ");
         }
         return scanner.nextInt();
@@ -162,12 +162,12 @@ public class LibraryAppMenu {
                 System.out.print(" Enter the Book ID to rent: ");
                 if (scanner.hasNextLong()) {
                     bookId = scanner.nextLong();
-                    scanner.nextLine(); // Clear buffer
+                    scanner.nextLine();
                     if (bookService.getBookById(bookId) != null) break;
                     else System.out.println("Book ID not found. Try again.");
                 } else {
                     System.out.println("Invalid input. Please enter a numeric Book ID.");
-                    scanner.next(); // Clear invalid input
+                    scanner.next();
                 }
             }
 
@@ -181,7 +181,7 @@ public class LibraryAppMenu {
             System.out.println(" Error: " + e.getMessage());
         } catch (Exception e) {
             System.out.println(" Unexpected error occurred. Please try again.");
-            scanner.nextLine(); // Clear scanner buffer in case of mismatch
+            scanner.nextLine();
         }
 
     }
@@ -229,7 +229,6 @@ public class LibraryAppMenu {
 
 
     public void purchaseBook() {
-        // 1. Show available books (reuse your existing method)
         viewAvailableBooks();
 
         Long bookId;
@@ -237,12 +236,12 @@ public class LibraryAppMenu {
             System.out.print("Enter the ID of the book you want to purchase: ");
             if (scanner.hasNextLong()) {
                 bookId = scanner.nextLong();
-                scanner.nextLine(); // clear buffer
+                scanner.nextLine();
                 if (bookService.getBookById(bookId) != null) break;
                 else System.out.println("Book ID not found. Try again.");
             } else {
                 System.out.println("Invalid input. Please enter a numeric Book ID.");
-                scanner.next(); // clear invalid input
+                scanner.next();
             }
         }
 
@@ -251,19 +250,18 @@ public class LibraryAppMenu {
             System.out.print("Enter the quantity you want to purchase: ");
             if (scanner.hasNextInt()) {
                 quantity = scanner.nextInt();
-                scanner.nextLine(); // clear buffer
+                scanner.nextLine();
                 if (quantity > 0) break;
                 else System.out.println("Quantity must be at least 1.");
             } else {
                 System.out.println("Invalid input. Please enter a numeric quantity.");
-                scanner.next(); // clear invalid input
+                scanner.next();
             }
         }
 
 
         try {
 
-            // Call your purchase service method
             Purchase purchase = purchaseService.createPurchase(client.getId(), bookId, quantity);
 
             System.out.println("Purchase successful!");
@@ -352,7 +350,7 @@ public class LibraryAppMenu {
             System.out.print("Enter the Rental ID of the book you want to return: ");
             if (scanner.hasNextLong()) {
                 Long input = scanner.nextLong();
-                scanner.nextLine(); // Clear buffer
+                scanner.nextLine();
 
                 boolean exists = activeRentals.stream().anyMatch(r -> r.getId().equals(input));
                 if (exists) {
@@ -363,7 +361,7 @@ public class LibraryAppMenu {
                 }
             } else {
                 System.out.println("Invalid input. Please enter a numeric Rental ID.");
-                scanner.next(); // Clear invalid input
+                scanner.next();
             }
         }
 
