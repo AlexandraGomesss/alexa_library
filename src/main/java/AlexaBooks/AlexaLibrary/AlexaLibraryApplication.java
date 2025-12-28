@@ -1,5 +1,6 @@
 package AlexaBooks.AlexaLibrary;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,19 +12,25 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "AlexaBooks.AlexaLibrary.Repositories")
 public class AlexaLibraryApplication implements CommandLineRunner {
 
-	private final LibraryAppMenu libraryAppMenu;
+    private final LibraryAppMenu libraryAppMenu;
 
-	public AlexaLibraryApplication(LibraryAppMenu libraryAppMenu) {
-		this.libraryAppMenu = libraryAppMenu;
-	}
+    // default: false (não corre CLI em produção)
+    @Value("${app.cli.enabled:false}")
+    private boolean cliEnabled;
 
-	public static void main(String[] args) {
-		SpringApplication.run(AlexaLibraryApplication.class, args);
-	}
+    public AlexaLibraryApplication(LibraryAppMenu libraryAppMenu) {
+        this.libraryAppMenu = libraryAppMenu;
+    }
 
-	@Override
-	public void run(String... args) {
-		System.out.println(" Welcome to Alexa Library");
-		libraryAppMenu.showMenu();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AlexaLibraryApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) {
+        if (!cliEnabled) return;
+
+        System.out.println(" Welcome to Alexa Library");
+        libraryAppMenu.showMenu();
+    }
 }
