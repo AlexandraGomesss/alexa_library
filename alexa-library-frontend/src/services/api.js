@@ -1,51 +1,21 @@
-import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:8080/api';
-
-
-const api = axios.create({
-    auth: {
-        username: 'admin',
-        password: 'admin123'
-    }
-});
+import { api } from "./http";
 
 export const fetchClientRentals = async (clientId) => {
-    try {
-        const response = await api.get(`${API_BASE_URL}/rentals/active/${clientId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching rentals:', error);
-        throw error;
-    }
+  const { data } = await api.get(`/rentals/active/${clientId}`);
+  return data;
 };
 
 export const fetchClientPurchases = async (clientId) => {
-    try {
-        const response = await api.get(`${API_BASE_URL}/purchases/client/${clientId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching purchases:', error);
-        throw error;
-    }
+  const { data } = await api.get(`/purchases/client/${clientId}`);
+  return data;
 };
 
 export const returnBook = async (rentalId) => {
-    try {
-        const response = await api.post(`${API_BASE_URL}/rentals/return/${rentalId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error returning book:', error);
-        throw error;
-    }
+  const { data } = await api.post(`/rentals/return/${rentalId}`);
+  return data;
 };
 
 export const extendRental = async (rentalId) => {
-    try {
-        const response = await api.post(`${API_BASE_URL}/rentals/extend/${rentalId}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error extending rental:', error);
-        throw error;
-    }
+  const { data } = await api.post(`/rentals/extend/${rentalId}`);
+  return data;
 };

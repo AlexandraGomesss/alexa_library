@@ -1,20 +1,6 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8080/api/books';
-
-const api = axios.create({
-    auth: {
-        username: 'admin',
-        password: 'admin123'
-    }
-});
+import { api } from "./http";
 
 export const getAvailableBooks = async () => {
-    try {
-        const response = await api.get(`${API_URL}/available`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching books:', error);
-        throw error;
-    }
+  const { data } = await api.get(`/books/available`);
+  return data;
 };
