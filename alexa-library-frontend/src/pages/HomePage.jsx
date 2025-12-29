@@ -96,8 +96,16 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <div className="mx-auto max-w-5xl px-6 py-12">
+    <div className="relative min-h-screen bg-black overflow-hidden">
+      {/* glow soft da brand */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-90 blur-3xl"
+        style={{
+          backgroundImage:
+            "radial-gradient(60% 45% at 50% 0%, rgba(204,254,0,0.45), transparent 60%), radial-gradient(45% 40% at 15% 85%, rgba(204,254,0,0.28), transparent 70%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-5xl px-6 py-12">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white">
