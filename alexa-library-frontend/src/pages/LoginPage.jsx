@@ -1,90 +1,105 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IoLogInOutline } from "react-icons/io5";
 
 const LoginPage = () => {
   const [clientId, setClientId] = useState("");
-  //const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
+  const [remember, setRemember] = useState(false); // se mais tarde quiseres usar
   const navigate = useNavigate();
 
+  const canSubmit = useMemo(() => clientId.trim().length > 0, [clientId]);
+
   const handleLogin = (e) => {
-    e.preventDefault(); // prevent page reload
-    if (clientId.trim() !== "") {
-      localStorage.setItem("clientId", clientId);
-      navigate("/home");
-    }
+    e.preventDefault();
+
+    const cleaned = clientId.trim();
+    if (!cleaned) return;
+
+    // Segurança: isto não é autenticação real. Para demo ok.
+    localStorage.setItem("clientId", cleaned);
+
+    // Nota: se implementares "remember", o ideal é cookies httpOnly no backend.
+    navigate("/home");
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="relative min-h-screen bg-black overflow-hidden flex items-center justify-center px-6">
+      {/* glow soft da brand */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-90 blur-3xl"
+        style={{
+          backgroundImage:
+            "radial-gradient(60% 45% at 50% 0%, rgba(204,254,0,0.45), transparent 60%), radial-gradient(45% 40% at 15% 85%, rgba(204,254,0,0.28), transparent 70%)",
+        }}
+      />
+
       <form
         onSubmit={handleLogin}
-        className="max-w-md w-full bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 mb-4"
+        className="relative w-full max-w-md rounded-2xl p-8 bg-gray-900/70 border border-white/10 shadow-lg"
       >
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-          Welcome to Alexa Library 📖
-        </h2>
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">
+            Alexa Library
+          </h2>
+          <p className="mt-2 text-sm text-white/60">
+            Sign in to access your rentals and purchases
+          </p>
+        </div>
 
-        <div className="mb-5">
+        <div className="mt-8">
           <label
             htmlFor="clientId"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block text-sm font-medium text-white/80"
           >
             Client ID
           </label>
+
           <input
             type="text"
             id="clientId"
             value={clientId}
             onChange={(e) => setClientId(e.target.value)}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             placeholder="Enter your client ID"
             required
+            autoComplete="off"
+            className="mt-2 w-full rounded-xl bg-black/30 border border-white/10 px-4 py-3 text-sm text-white
+                       placeholder:text-white/30 outline-none
+                       focus:border-[rgba(204,254,0,0.55)] focus:ring-2 focus:ring-[rgba(204,254,0,0.18)]"
           />
         </div>
 
-        {/* <div className="mb-5">
-                    <label
-                        htmlFor="password"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Your password
-                    </label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="••••••••"
-                        required
-                    />
-                </div>*/}
-
-        {/*<div className="flex items-start mb-5">
-                    <div className="flex items-center h-5">
-                        <input
-                            id="remember"
-                            type="checkbox"
-                            checked={remember}
-                            onChange={(e) => setRemember(e.target.checked)}
-                            className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600"
-                        />
-                    </div>
-                    <label
-                        htmlFor="remember"
-                        className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                        Remember me
-                    </label>
-                </div>*/}
+        {/* Se quiseres reativar mais tarde */}
+        {/* 
+        <div className="mt-4 flex items-center gap-2">
+          <input
+            id="remember"
+            type="checkbox"
+            checked={remember}
+            onChange={(e) => setRemember(e.target.checked)}
+            className="h-4 w-4 rounded border-white/20 bg-black/30 text-[rgba(204,254,0,1)] focus:ring-[rgba(204,254,0,0.25)]"
+          />
+          <label htmlFor="remember" className="text-sm text-white/60">
+            Remember me
+          </label>
+        </div>
+        */}
 
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          disabled={!canSubmit}
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-semibold text-black
+                     ring-1 ring-white/10
+                     transition-transform duration-200 ease-out
+                     hover:scale-[1.01]
+                     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
+          <IoLogInOutline className="h-5 w-5" aria-hidden="true" />
           Submit
         </button>
+
+        <p className="mt-6 text-center text-xs text-white/40">
+          Tip: use the Client ID provided by the library.
+        </p>
       </form>
     </div>
   );
